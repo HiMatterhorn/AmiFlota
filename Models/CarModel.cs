@@ -1,14 +1,21 @@
-﻿using static AmiFlota.Utilities.Enums;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using static AmiFlota.Utilities.Enums;
 
 namespace AmiFlota.Models
 {
     public class CarModel
     {
+        [Key]
+        [Required]
 
-        public string VINnumber { get; set; }
+        public string VIN { get; set; }
+
+        [DisplayName("Registration Number")]
         public string RegistrationNumber { get; set; }
-
+        [MaxLength(100)]
         public string Brand { get; set; }
+        [MaxLength(100)]
         public string Model { get; set; }
 
         public int SeatsNumber { get; set; }
@@ -16,4 +23,4 @@ namespace AmiFlota.Models
         public TrunkType Trunk { get; set; }
 
     }
-    }
+}
