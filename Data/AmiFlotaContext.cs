@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AmiFlota.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using AmiFlota.Models;
 
 namespace AmiFlota.Data
 {
-    public class AmiFlotaContext : DbContext
+    public class AmiFlotaContext : IdentityDbContext<ApplicationUser>
     {
-        public AmiFlotaContext (DbContextOptions<AmiFlotaContext> options)
+        public AmiFlotaContext(DbContextOptions<AmiFlotaContext> options)
             : base(options)
         {
         }

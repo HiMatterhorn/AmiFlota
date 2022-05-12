@@ -6,5 +6,10 @@
         {
             hatchback, sedan, combi, van, suv
         }
+
+        public enum UserRole
+        {
+            admin, manager, user
+        }
     }
 }
