@@ -27,7 +27,7 @@ namespace AmiFlota
             services.AddDbContext<AmiFlotaContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AmiFlotaContext")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUserModel, IdentityRole>()
                 .AddEntityFrameworkStores<AmiFlotaContext>()
                 .AddDefaultTokenProviders();
 

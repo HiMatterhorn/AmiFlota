@@ -12,7 +12,7 @@ namespace AmiFlota.Utilities
             if (isAdmin)
             {
                 return new List<SelectListItem> {
-                new SelectListItem { Value=UserRole.admin.ToString(), Text=UserRole.admin.ToString()},
+                new SelectListItem { Value = UserRole.admin.ToString(), Text=UserRole.admin.ToString()},
                 new SelectListItem { Value = UserRole.manager.ToString(), Text = UserRole.manager.ToString() },
                 new SelectListItem { Value = UserRole.user.ToString(), Text = UserRole.user.ToString() }
             };

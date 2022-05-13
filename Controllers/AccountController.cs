@@ -14,11 +14,11 @@ namespace AmiFlota.Controllers
     public class AccountController : Controller
     {
         private readonly AmiFlotaContext _db;
-        UserManager<ApplicationUser> _userManager;
-        SignInManager<ApplicationUser> _signInManager;
+        UserManager<ApplicationUserModel> _userManager;
+        SignInManager<ApplicationUserModel> _signInManager;
         RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(AmiFlotaContext db, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public AccountController(AmiFlotaContext db, UserManager<ApplicationUserModel> userManager, SignInManager<ApplicationUserModel> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _userManager = userManager;
@@ -47,7 +47,7 @@ namespace AmiFlota.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                var user = new ApplicationUserModel
                 {
                     UserName = model.Name,
                     Email = model.Email,      
