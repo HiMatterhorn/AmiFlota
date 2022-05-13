@@ -9,11 +9,11 @@ using AmiFlota.Data;
 
 namespace AmiFlota.Models
 {
-    public class CarModelsController : Controller
+    public class CarController : Controller
     {
         private readonly AmiFlotaContext _context;
 
-        public CarModelsController(AmiFlotaContext context)
+        public CarController(AmiFlotaContext context)
         {
             _context = context;
         }

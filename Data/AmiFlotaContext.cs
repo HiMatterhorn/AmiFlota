@@ -14,6 +14,7 @@ namespace AmiFlota.Data
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<BookingModel> Bookings { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
