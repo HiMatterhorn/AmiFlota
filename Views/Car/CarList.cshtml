@@ -8,83 +8,30 @@
     <title>List of the cars</title>
 </head>
 <body>
+    <div class="card-deck">
+
+        <div class="row">
+            @foreach (var car in Model)
+            {
+                var photoPath = "/images/cars/" + (car.PhotoPath ?? "noimage") + ".jpg";
 
 
-        @foreach (var car in Model)
-        {
-            @*            var photoPath = "~/images/cars/" + (car.PhotoPath ?? "noimage.jpg");
+                <div class="card box-shadow" style="max-width: 30%; height: 300px">
+                    <img class="" src="@photoPath">
 
-                <div class="card box-shadow" style="min-width: 100px; max-width: 300px; height:auto">
-                <img class="card-img-top img-thumbnail" src="@photoPath"
-                asp-append-version="true" />
-
-                <div class="card-footer text-xl-center">
-                <a asp-action="Details" class="text-center">@car.RegistrationNumber</a>
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand + @car.Model </h5>
+                        <p class="card-text">
+                            Registration number: @car.RegistrationNumber <br>
+                            Number of seats: @car.SeatsNumber
+                        </p>
+                        @*<a href="#" class="btn btn-primary">Show details</a>*@
+                        <a class="btn btn-primary" asp-action="Details" asp-route-id="@car.VIN">Show details</a>
+                    </div>
                 </div>
-                </div>*@
 
-            <div class="card" style="width: 18rem;">
-                <img src="~/images/cars/noimage.jpg">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-        }
-
-
-
-
-
-    @* <table class="table">
-        <thead>
-        <tr>
-        <th>
-        @Html.DisplayNameFor(model => model.RegistrationNumber)
-        </th>
-        <th>
-        @Html.DisplayNameFor(model => model.Brand)
-        </th>
-        <th>
-        @Html.DisplayNameFor(model => model.Model)
-        </th>
-        <th>
-        @Html.DisplayNameFor(model => model.SeatsNumber)
-        </th>
-        <th>
-        @Html.DisplayNameFor(model => model.Trunk)
-        </th>
-        <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-        <td>
-        @Html.DisplayFor(modelItem => item.RegistrationNumber)
-        </td>
-        <td>
-        @Html.DisplayFor(modelItem => item.Brand)
-        </td>
-        <td>
-        @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-        @Html.DisplayFor(modelItem => item.SeatsNumber)
-        </td>
-        <td>
-        @Html.DisplayFor(modelItem => item.Trunk)
-        </td>
-        <td>
-        <a asp-action="Edit" asp-route-id="@item.VIN">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.VIN">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.VIN">Delete</a>
-        </td>
-        </tr>
-        }
-        </tbody>
-        </table>*@
+            }
+        </div>
+        </div>
 </body>
 </html>
