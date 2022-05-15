@@ -19,9 +19,11 @@ namespace AmiFlota.Models
         }
 
         // GET: CarModels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> CarList()
         {
-            return View(await _context.CarModels.ToListAsync());
+            IEnumerable<CarModel> cars = await _context.CarModels.ToListAsync(); 
+
+            return View(cars);
         }
 
         // GET: CarModels/Details/5
