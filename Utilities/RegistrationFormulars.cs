@@ -21,6 +21,8 @@ namespace AmiFlota.Utilities
             else
             {
                 return new List<SelectListItem> {
+                    //TODO Delete option to create admin user
+                                    new SelectListItem { Value = UserRole.admin.ToString(), Text=UserRole.admin.ToString()},
                         new SelectListItem { Value = UserRole.manager.ToString(), Text = UserRole.manager.ToString() },
                         new SelectListItem { Value = UserRole.user.ToString(), Text = UserRole.user.ToString() }
                     };

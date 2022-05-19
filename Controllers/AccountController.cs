@@ -50,7 +50,7 @@ namespace AmiFlota.Controllers
                 var user = new ApplicationUserModel
                 {
                     UserName = model.Name,
-                    Email = model.Email,      
+                    Email = model.Email,
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -66,7 +66,7 @@ namespace AmiFlota.Controllers
                         TempData["newAdminSignedUp"] = user.UserName;
                     }
 
-                    return RedirectToAction("Index", "CarModels");
+                    return RedirectToAction("Search", "Booking");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -77,8 +77,42 @@ namespace AmiFlota.Controllers
             return View(model);
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                if (result.Succeeded)
+                {
+                    //Set Seesion Data
+                    var user = await _userManager.FindByNameAsync(model.Email);
+/*                    HttpContext.Session.SetString("ssuserName", user.Name);*/
+                    //Retrieve Session Dataprivate r
+                    // var userName = HttpContext.Session.GetString("ssuserName");
+                    return RedirectToAction("Index", "Appointment");
+                }
+                ModelState.AddModelError("", "Invalid login attempt");
+            }
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
+        }
+
 
     }
 
-    
+
 }
