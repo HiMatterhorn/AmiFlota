@@ -86,17 +86,20 @@ namespace AmiFlota.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM model)
         {
+
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     //Set Seesion Data
-                    var user = await _userManager.FindByNameAsync(model.Email);
-/*                    HttpContext.Session.SetString("ssuserName", user.Name);*/
+                    var user = await _userManager.FindByNameAsync(model.UserName);
+                    HttpContext.Session.SetString("userEmailAssigned", user.Email);
+
                     //Retrieve Session Dataprivate r
-                    // var userName = HttpContext.Session.GetString("ssuserName");
-                    return RedirectToAction("Index", "Appointment");
+                    // var userEmail = HttpContext.Session.GetString("userEmailAssigned");
+
+                    return RedirectToAction("Search", "Booking");
                 }
                 ModelState.AddModelError("", "Invalid login attempt");
             }

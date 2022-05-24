@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace AmiFlota
 {
@@ -31,6 +32,15 @@ namespace AmiFlota
                 .AddEntityFrameworkStores<AmiFlotaContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            }
+            );
+
             //Refresh pages without stopping application
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -54,7 +64,9 @@ namespace AmiFlota
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
