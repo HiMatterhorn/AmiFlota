@@ -1,5 +1,6 @@
 using AmiFlota.Data;
 using AmiFlota.Models;
+using AmiFlota.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,6 +28,8 @@ namespace AmiFlota
 
             services.AddDbContext<AmiFlotaContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("AmiFlotaContext")));
+
+            services.AddTransient<IBookingService, BookingService>();
 
             services.AddIdentity<ApplicationUserModel, IdentityRole>()
                 .AddEntityFrameworkStores<AmiFlotaContext>()

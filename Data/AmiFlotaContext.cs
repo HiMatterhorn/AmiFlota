@@ -11,7 +11,7 @@ namespace AmiFlota.Data
         {
         }
 
-        public DbSet<CarModel> CarModels { get; set; }
+        public DbSet<CarModel> Cars { get; set; }
         public DbSet<BookingModel> Bookings { get; set; }
 
 

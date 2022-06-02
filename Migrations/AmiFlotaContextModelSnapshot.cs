@@ -128,7 +128,7 @@ namespace AmiFlota.Migrations
 
                     b.HasIndex("CarVIN");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("AmiFlota.Models.CarModel", b =>
@@ -158,7 +158,7 @@ namespace AmiFlota.Migrations
 
                     b.HasKey("VIN");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

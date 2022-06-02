@@ -16,7 +16,9 @@
         <div class="row">
             @foreach (var car in Model)
             {
-                var photoPath = "/images/cars/" + (car.PhotoPath ?? "noimage") + ".jpg";
+
+                //TODO insert partial views
+                @*var photoPath = "/images/cars/" + (car.PhotoPath ?? "noimage") + ".jpg";
 
 
                 <div class="card box-shadow" style="max-width: 30%; height: 300px">
@@ -28,10 +30,10 @@
                             Registration number: @car.RegistrationNumber <br>
                             Number of seats: @car.SeatsNumber
                         </p>
-                        @*<a href="#" class="btn btn-primary">Show details</a>*@
+                        <a href="#" class="btn btn-primary">Show details</a>
                         <a class="btn btn-primary" asp-action="Details" asp-route-id="@car.VIN">Show details</a>
                     </div>
-                </div>
+                </div>*@
 
             }
         </div>

@@ -21,7 +21,7 @@ namespace AmiFlota.Models
         // GET: CarModels
         public async Task<IActionResult> CarList()
         {
-            IEnumerable<CarModel> cars = await _context.CarModels.ToListAsync(); 
+            IEnumerable<CarModel> cars = await _context.Cars.ToListAsync(); 
 
             return View(cars);
         }
@@ -34,7 +34,7 @@ namespace AmiFlota.Models
                 return NotFound();
             }
 
-            var carModel = await _context.CarModels
+            var carModel = await _context.Cars
                 .FirstOrDefaultAsync(m => m.VIN == id);
             if (carModel == null)
             {
@@ -74,7 +74,7 @@ namespace AmiFlota.Models
                 return NotFound();
             }
 
-            var carModel = await _context.CarModels.FindAsync(id);
+            var carModel = await _context.Cars.FindAsync(id);
             if (carModel == null)
             {
                 return NotFound();
@@ -125,7 +125,7 @@ namespace AmiFlota.Models
                 return NotFound();
             }
 
-            var carModel = await _context.CarModels
+            var carModel = await _context.Cars
                 .FirstOrDefaultAsync(m => m.VIN == id);
             if (carModel == null)
             {
@@ -140,15 +140,15 @@ namespace AmiFlota.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var carModel = await _context.CarModels.FindAsync(id);
-            _context.CarModels.Remove(carModel);
+            var carModel = await _context.Cars.FindAsync(id);
+            _context.Cars.Remove(carModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CarModelExists(string id)
         {
-            return _context.CarModels.Any(e => e.VIN == id);
+            return _context.Cars.Any(e => e.VIN == id);
         }
     }
 }

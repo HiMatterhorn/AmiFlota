@@ -10,6 +10,8 @@
     <title>Search for available car</title>
 </head>
 <body>
+
+    @*//TODO Rewaork it to search partial view*@
     <form method="post" asp-action="Search" asp-controller="Booking">
         <div class="row text-center">
             <h2>Booking dates</h2>
@@ -27,11 +29,15 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-md-4 offset-md-2">
-                <input type="submit" value="Search" class="btn btn-success" />
+            <div class="col-md-4">
+                <button type="button" id="btnSearch" class="btn btn-outline-info" onclick="onSearch();">Search</button>
             </div>
         </div>
     </form>
+
+
+    @*  //TODO Present available cars in partial view *@
+    @*    <div id="_FilteredCarsView"> </div>*@
 
     <footer>
         <div class="text-right pt-2">
@@ -41,3 +47,22 @@
 
 </body>
 </html>
+
+@*
+    //TODO Get available cars when "Search button is pressed"
+    <script>
+    function onSearch(){
+    $.ajax(){
+    url: '@Url.Action("FilterCars", "Booking")',
+    datatype: 'html',
+    method: 'GET',
+    data:{startDate : ('#bookingStartDate').val(), endDate : ('#bookingEndDate').val()},
+    success: function (result) {
+    $('_FilteredCarsView').html('').html(result);
+    },
+    error: function (error){
+    console.log(error);
+    }
+    }
+    }
+    </script> *@

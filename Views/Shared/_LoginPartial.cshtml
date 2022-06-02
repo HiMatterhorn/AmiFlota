@@ -15,10 +15,10 @@
         <li class="nav-item">
             <a class="nav-link text-light" asp-controller="Booking" asp-action="Book">Book a car</a>
         </li>
-        <li>
-        <li class="nav-item">
-            <a class="nav-link text-light" id="logoutLink" asp-controller="Account" asp-action="Logout">Sign out</a>
-        </li>
+     </ul>
+
+
+    <ul class="navbar-nav">
         <li class="text-white nav-link"> 
             Hello, @User.Identity.Name! 
         </li>
@@ -26,13 +26,6 @@
         <li> <a class="text-white nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </form>
     </ul>
-
-    @*    <form method="post" id="logoutForm" asp-action="Logoff" asp-controller="Account">
-        <ul class="nav navbar-nav">
-        <li class="text-white nav-link"> Hello, @User.Identity.Name! </li>
-        <li> <a class="text-white nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
-        </form>*@
 }
 
 else

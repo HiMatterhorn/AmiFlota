@@ -1,0 +1,38 @@
+﻿@model IEnumerable<AmiFlota.Models.CarModel>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List of the available cars</title>
+</head>
+<body>
+
+    @foreach (var car in Model)
+    {
+
+        //TODO insert partial views
+@*        var photoPath = "/images/cars/" + (car.PhotoPath ?? "noimage") + ".jpg";
+
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@photoPath" class="img-fluid rounded-start">
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.Brand + @car.Model</h5>
+                        <p class="card-text">
+                            Registration number: @car.RegistrationNumber <br>
+                            Number of seats: @car.SeatsNumber
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    }
+</body>
+</html>
