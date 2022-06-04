@@ -49,3 +49,51 @@ function InitializeCalendar() {
         alert(e);
     }
 }
+
+/*function onSearch() {
+    if (checkValidation()) {
+
+
+        var requestData = {
+            Id: $("#bookingStartDate").val(),
+            Title: $("#bookingEndDate").val(),
+        };
+
+        $.ajax({
+            url: routeURL + '/api/Booking/GetAllAvailableCars',
+            type: 'GET',
+            data: JSON.stringify(requestData),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.status === 1 || response.status === 2) {
+
+                    $.notify(response.message, "success");
+
+                }
+                else {
+                    $.notify(response.message, "error");
+                }
+            },
+            error: function (xhr) {
+                $.notify("Error", "error");
+            }
+        });
+    }
+}*/
+
+function checkValidation() {
+    var isValid = true;
+
+    /*   //TODO Validation rules
+         if ($("#title").val() == undefined || $("#title").val() == "") {
+            isValid = false;
+        }
+    
+        if ($("#appointmentDate").val() == undefined || $("#appointmentDate").val() == "") {
+            isValid = false;
+    
+        }*/
+
+    return isValid;
+
+}

@@ -25,10 +25,18 @@ namespace AmiFlota.Controllers
             return View();
         }
 
-       public PartialViewResult FilterCars(DateTime startDate, DateTime endDate)
+       public PartialViewResult FilterCars()
         {
-             List<CarModel> carList = _bookingService.GetAllAvailableCars(startDate, endDate);
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = DateTime.Now;
+
+            List<CarModel> carList = _bookingService.GetAllAvailableCars(startDate, endDate);
             return PartialView("_FilteredCarsView", carList);
+        }
+
+        public PartialViewResult Test()
+        {
+            return PartialView("_Test");
         }
 
 
