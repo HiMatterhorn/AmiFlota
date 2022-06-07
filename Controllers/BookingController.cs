@@ -1,54 +1,81 @@
 ﻿using AmiFlota.Data;
 using AmiFlota.Models;
+using AmiFlota.Models.ViewModels;
 using AmiFlota.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AmiFlota.Controllers
 {
     public class BookingController : Controller
     {
 
-/*        private readonly AmiFlotaContext _context;*/
         private readonly IBookingService _bookingService;
         public BookingController(IBookingService bookingService)
         {
-/*            _context = context;*/
             _bookingService = bookingService;
-
         }
 
-        public ActionResult Search()
+        public IActionResult Search()
         {
             return View();
         }
 
-       public PartialViewResult FilterCars()
+        public async Task<PartialViewResult> FilterCars(DateTime startDate, DateTime endDate)
         {
-            DateTime startDate = DateTime.Now;
-            DateTime endDate = DateTime.Now;
-
-            List<CarModel> carList = _bookingService.GetAllAvailableCars(startDate, endDate);
+            AvailableCarsVM carList = await _bookingService.GetAvailableCars(startDate, endDate);
             return PartialView("_FilteredCarsView", carList);
         }
 
-        public PartialViewResult Test()
+        //GET - create
+        public IActionResult BookingDetails(string VIN, DateTime startDate, DateTime endDate)
         {
-            return PartialView("_Test");
+            BookingModel model = new BookingModel()
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                CarVIN = VIN,
+                BookingUser = "empty",
+            };
+
+            BookingVM viewModel = new BookingVM()
+            {
+                Booking = model
+            };
+
+            return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult BookingDetails(BookingVM bookingVM)
+        {
 
-        public ActionResult Book()
+            if (ModelState.IsValid)
+            {
+            _bookingService.BookCar(bookingVM);
+            return (RedirectToAction("Index"));
+            }
+            /* TODO Get by parameter: VIN, startDate, endDate fom _FilteredCarsView.cshtml
+             * Get by dependency injection userName
+             * Return a view to fill Destination, Project Cost
+             */
+
+            return View(bookingVM);
+        }
+
+        public IActionResult Book()
         {
             return View();
         }
 
-/*        public List<BookingModel> GetAllCars()
+        public IActionResult Index()
         {
-
-        }*/
+            return View();
+        }
 
     }
 }

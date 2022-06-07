@@ -4,13 +4,13 @@ $(document).ready(function () {
     $("#bookingStartDate").kendoDateTimePicker({
         value: new Date(),
         dateInput: false,
-        format: "yyyy/MM/dd hh:mm"
+        format: "dd.MM.yyyy hh:mm"
     });
 
     $("#bookingEndDate").kendoDateTimePicker({
         value: new Date(),
         dateInput: false,
-        format: "yyyy/MM/dd hh:mm"
+        format: "dd.MM.yyyy hh:mm"
     });
 
     InitializeCalendar();
@@ -50,36 +50,7 @@ function InitializeCalendar() {
     }
 }
 
-/*function onSearch() {
-    if (checkValidation()) {
 
-
-        var requestData = {
-            Id: $("#bookingStartDate").val(),
-            Title: $("#bookingEndDate").val(),
-        };
-
-        $.ajax({
-            url: routeURL + '/api/Booking/GetAllAvailableCars',
-            type: 'GET',
-            data: JSON.stringify(requestData),
-            contentType: 'application/json',
-            success: function (response) {
-                if (response.status === 1 || response.status === 2) {
-
-                    $.notify(response.message, "success");
-
-                }
-                else {
-                    $.notify(response.message, "error");
-                }
-            },
-            error: function (xhr) {
-                $.notify("Error", "error");
-            }
-        });
-    }
-}*/
 
 function checkValidation() {
     var isValid = true;

@@ -12,7 +12,7 @@
 <body>
 
     @*//TODO Rewaork it to search partial view*@
-    @*<form method="post" asp-action="Search" asp-controller="Booking">*@
+    @*_BookingSearch*@
     <form id="bookingForm" autocomplete="off" novalidate="novalidate">
         <div class="row text-center">
             <h2>Booking dates</h2>
@@ -31,14 +31,16 @@
 
         <div class="form-group row">
             <div class="col-md-4">
-                <button type="button" id="btnSearch" class="btn btn-success" onclick="onSearch();">Search</button>
+                <button type="button" id="btnSearch" class="btn btn-success">Search</button>
             </div>
         </div>
+
+        @*//TODO Return bookingStartDate and bookingEndDate to bookingVM *@
     </form>
 
+        <div id="_SearchingResults"> </div>
 
-     @*//TODO Present available cars in partial view *@ 
-        <div id="_PartialView"> </div>
+        
 
     <footer>
         <div class="text-right pt-2">
@@ -48,39 +50,25 @@
 
 </body>
 </html>
-
+    
+@* //TODO Relocate script to separate file*@
+@*<script src="~/js/searching-results.js"></script>*@
 
 <script>
-        function onSearch(){
-       // $.ajax(){
-       // url: '@Url.Action("FilterCars", "Booking")',
-       // datatype: 'html',
-       // method: 'GET',
-       // data:{startDate : ('#bookingStartDate').val(), endDate : ('#bookingEndDate').val()},
-       // success: function (result) {
-       // $('_FilteredCarsView').html('').html(result);
-       // },
-       // error: function (error){
-       // console.log(error);
-       // }
-       // }
+$('#btnSearch').on('click',function(){
+    $.ajax({
+        url: '@Url.Action("FilterCars", "Booking")',
+        datatype: 'html',
+        data: {startDate:($('#bookingStartDate').val()), endDate:($('#bookingEndDate').val())},
+        method: 'GET',
 
-
-       $.ajax({
-           url: '@Url.Action("Test", "Booking")',
-           datatype: 'html',
-           method: 'GET',
-           success: function (result) {
-        $('#_PartialView').html('').html(result);
-        console.log("sukces");
+        success: function (result) {
+            $('#_SearchingResults').html('').html(result);
         },
-        error: function (error){
-        console.log(error);
+
+        error: function (error) {
+            console.log(error);
         }
     });
-        }
-        //function onSearch(){
-        //    console.log("test");
-        //}
-
-</script> 
+});
+</script>

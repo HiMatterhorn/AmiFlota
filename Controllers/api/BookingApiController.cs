@@ -24,7 +24,7 @@ namespace AmiFlota.Controllers.api
             return View();
         }
 
-        [HttpGet]
+/*        [HttpGet]
         [Route("GetAllAvailableCars")]
         public IActionResult GetAllAvailableCars(DateTime startDate, DateTime endDate)
         {
@@ -41,6 +41,6 @@ namespace AmiFlota.Controllers.api
             }
 
             return Ok(commonResponse);
-        }
+        }*/
     }
 }

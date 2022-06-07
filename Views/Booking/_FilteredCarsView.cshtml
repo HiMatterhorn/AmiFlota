@@ -1,4 +1,6 @@
-﻿@model IEnumerable<AmiFlota.Models.CarModel>
+﻿@model AmiFlota.Models.ViewModels.AvailableCarsVM
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 
 <!DOCTYPE html>
 
@@ -8,31 +10,40 @@
     <title>List of the available cars</title>
 </head>
 <body>
-
-    @foreach (var car in Model)
-    {
-
-        //TODO insert partial views
-@*        var photoPath = "/images/cars/" + (car.PhotoPath ?? "noimage") + ".jpg";
-
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="@photoPath" class="img-fluid rounded-start">
-                </div>
-
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">@car.Brand + @car.Model</h5>
-                        <p class="card-text">
-                            Registration number: @car.RegistrationNumber <br>
-                            Number of seats: @car.SeatsNumber
-                        </p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    </div>
-                </div>
+    <div class="row">
+        @foreach (var car in Model.AvailableCars)
+        {
+            <div class="col-8">
+                <partial name="_CarListItem" model=car />
             </div>
-        </div>*@
-    }
+            <div class="col-4 align-content-center">
+                @*<button type="button" id="btnBook@car.VIN" data-VIN="@car.RegistrationNumber" class="btn">Book</button>*@
+@*                <button class='btn btn-light' type='button' onclick="javascript:BookClick(@car.VIN);">Book</button>*@
+
+               <a asp-controller="Booking" asp-action="BookingDetails"
+               asp-route-VIN="@car.VIN"
+               asp-route-startDate="@Model.StartDate"
+               asp-route-endDate="@Model.EndDate"
+               class="btn btn-primary mx-1" type="button">Book</a>
+
+            </div>
+        };
+    </div>
 </body>
 </html>
+
+
+@*<script>
+    $(document).ready(function () {
+    $(document).on("click", ".btn", function(event){
+    event.preventDefault();
+
+    var me = $(this);
+    var test = "test"
+    var carVIN = me.data("VIN");
+
+    console.log(test);
+    });
+    })
+    </script>*@
+

@@ -1,9 +1,11 @@
 ﻿using AmiFlota.Data;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AmiFlota.Services
 {
@@ -17,12 +19,32 @@ namespace AmiFlota.Services
         }
 
 
-        public List<CarModel> GetAllAvailableCars(DateTime startDate, DateTime endDate)
+        public async Task<AvailableCarsVM> GetAvailableCars(DateTime startDate, DateTime endDate)
         {
-            List<CarModel> availableCars = new List<CarModel>();  
-            
-            //Get list of all cars
-            IEnumerable<CarModel> cars = GetAllCars();
+
+            List<CarModel> availableCars = await GetCarsInDates(startDate, endDate);
+
+            AvailableCarsVM availableCarsVM = new AvailableCarsVM()
+            {
+                AvailableCars = availableCars,
+                StartDate = startDate,
+                EndDate = endDate,
+            };
+
+            return availableCarsVM;
+       }
+
+        public async Task<List<CarModel>> GetAllCars()
+        {
+            List<CarModel> cars = await _db.Cars.ToListAsync();
+
+            return cars;
+        }
+
+        public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
+        {
+            List<CarModel> availableCars = new List<CarModel>();
+            IEnumerable<CarModel> cars = await GetAllCars();
 
             foreach (var car in cars)
             {
@@ -32,25 +54,23 @@ namespace AmiFlota.Services
                     .Where(e => e.EndDate >= startDate).ToList();
 
 
-                if (bookings.Count() == 0 )
+                if (bookings.Count() == 0)
                 {
                     availableCars.Add(car);
                 }
             };
-
             return availableCars;
-
-        }
-
-        public List<CarModel> GetAllCars()
-        {
-            List<CarModel> cars = _db.Cars.ToList();
-            return cars;
         }
 
         public IEnumerable<CarModel> GetCarByVIN(string VIN)
         {
             return _db.Cars.Where(x => x.VIN.Equals(VIN));
+        }
+
+        public void BookCar (BookingVM bookingVM)
+        {
+/*            _db.Bookings.Add(bookingVM.Booking);
+            _db.SaveChanges();*/
         }
 
     }
