@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AmiFlota.Controllers
@@ -14,9 +15,13 @@ namespace AmiFlota.Controllers
     {
 
         private readonly IBookingService _bookingService;
-        public BookingController(IBookingService bookingService)
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public BookingController(IBookingService bookingService, IHttpContextAccessor httpContextAccessor)
         {
             _bookingService = bookingService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Search()
@@ -38,8 +43,11 @@ namespace AmiFlota.Controllers
                 StartDate = startDate,
                 EndDate = endDate,
                 CarVIN = VIN,
-                BookingUser = "empty",
+                BookingUser = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
+            // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  will give the user's userId
+            //userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
+            //email = User.FindFirstValue(ClaimTypes.Email);
 
             BookingVM viewModel = new BookingVM()
             {
@@ -51,20 +59,14 @@ namespace AmiFlota.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult BookingDetails(BookingVM bookingVM)
+        public IActionResult BookingDetails(BookingVM viewModel)
         {
-
             if (ModelState.IsValid)
             {
-            _bookingService.BookCar(bookingVM);
-            return (RedirectToAction("Index"));
+                _bookingService.BookCar(viewModel);
+                return (RedirectToAction("Index"));
             }
-            /* TODO Get by parameter: VIN, startDate, endDate fom _FilteredCarsView.cshtml
-             * Get by dependency injection userName
-             * Return a view to fill Destination, Project Cost
-             */
-
-            return View(bookingVM);
+            return View(viewModel);
         }
 
         public IActionResult Book()

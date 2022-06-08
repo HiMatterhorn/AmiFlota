@@ -1,6 +1,7 @@
 ﻿using AmiFlota.Data;
 using AmiFlota.Models;
 using AmiFlota.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace AmiFlota.Services
     public class BookingService : IBookingService
     {
         private readonly AmiFlotaContext _db;
+        private readonly UserManager<ApplicationUserModel> _userManager;
 
-        public BookingService(AmiFlotaContext db)
+        public BookingService(AmiFlotaContext db, UserManager<ApplicationUserModel> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
 
@@ -69,8 +72,8 @@ namespace AmiFlota.Services
 
         public void BookCar (BookingVM bookingVM)
         {
-/*            _db.Bookings.Add(bookingVM.Booking);
-            _db.SaveChanges();*/
+            _db.Bookings.Add(bookingVM.Booking);
+            _db.SaveChanges();
         }
 
     }

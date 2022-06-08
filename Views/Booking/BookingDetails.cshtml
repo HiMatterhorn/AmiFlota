@@ -12,15 +12,21 @@
 </div>
 
 <form method="post" asp-controller="Booking" asp-action="BookingDetails" id="bookingDetailsForm">
+    <input asp-for="Booking.CarVIN">Model.Booking.CarVIN</>
+        <input asp-for="Booking.BookingUser">Model.Booking.BookingUser</>
+
+        <input asp-for="Booking.StartDate"> Model.Booking.StartDate </>
+        <input asp-for="Booking.EndDate"> Model.Booking.EndDate </>
+
     <div class="border p-3">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
-            <label for="Booking.Destination">Destination</label>
-            <textarea type="text" class="form-control" id="Booking.Destination"></textarea>
+            <label asp-for="Booking.Destination">Destination</label>
+            <input asp-for="Booking.Destination" class="form-control" id="Booking.Destination"></>
         </div>
         <div class="form-group">
-            <label for="Booking.ProjectCost">Project</label>
-            <textarea type="text" class="form-control" id="Booking.ProjectCost"></textarea>
+            <label asp-for="Booking.ProjectCost">Project:</label>
+            <input asp-for="Booking.ProjectCost" class="form-control" id="Booking.ProjectCost"></>
         </div>
 
         <div class="row">
