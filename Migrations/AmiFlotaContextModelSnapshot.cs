@@ -98,10 +98,6 @@ namespace AmiFlota.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("BookingUser")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CarVIN")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -119,16 +115,21 @@ namespace AmiFlota.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("User Id");
+
                     b.Property<bool>("isApproved")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingUser");
-
                     b.HasIndex("CarVIN");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("AmiFlota.Models.CarModel", b =>
@@ -158,7 +159,7 @@ namespace AmiFlota.Migrations
 
                     b.HasKey("VIN");
 
-                    b.ToTable("Cars", (string)null);
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -296,15 +297,15 @@ namespace AmiFlota.Migrations
 
             modelBuilder.Entity("AmiFlota.Models.BookingModel", b =>
                 {
-                    b.HasOne("AmiFlota.Models.ApplicationUserModel", "ApplicationUserModels")
-                        .WithMany("BookingModels")
-                        .HasForeignKey("BookingUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AmiFlota.Models.CarModel", "CarModels")
                         .WithMany("Bookings")
                         .HasForeignKey("CarVIN")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AmiFlota.Models.ApplicationUserModel", "ApplicationUserModels")
+                        .WithMany("BookingModels")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

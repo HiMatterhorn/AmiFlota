@@ -63,7 +63,7 @@ namespace AmiFlota.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_BookingUser",
                 table: "Bookings",
-                column: "BookingUser");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_CarVIN",

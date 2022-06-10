@@ -100,7 +100,7 @@ namespace AmiFlota.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("BookingUser")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -126,7 +126,7 @@ namespace AmiFlota.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookingUser");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("CarVIN");
 
@@ -297,7 +297,7 @@ namespace AmiFlota.Migrations
                 {
                     b.HasOne("AmiFlota.Models.ApplicationUserModel", "ApplicationUserModels")
                         .WithMany("BookingModels")
-                        .HasForeignKey("BookingUser")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

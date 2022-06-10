@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmiFlota.Migrations
 {
     [DbContext(typeof(AmiFlotaContext))]
-    [Migration("20220513193755_pathToCarPhoto")]
-    partial class pathToCarPhoto
+    [Migration("20220609053509_BookingUserRenamedToBookingUserId")]
+    partial class BookingUserRenamedToBookingUserId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

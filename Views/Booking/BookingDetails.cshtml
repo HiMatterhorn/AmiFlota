@@ -8,15 +8,14 @@
     <h4>@Model.Booking.CarVIN</h4>
 </div>
 <div class="form-group row">
-    <h4>@Model.Booking.BookingUser</h4>
+    <h4>@Model.UserName</h4>
 </div>
 
 <form method="post" asp-controller="Booking" asp-action="BookingDetails" id="bookingDetailsForm">
-    <input asp-for="Booking.CarVIN">Model.Booking.CarVIN</>
-        <input asp-for="Booking.BookingUser">Model.Booking.BookingUser</>
-
-        <input asp-for="Booking.StartDate"> Model.Booking.StartDate </>
-        <input asp-for="Booking.EndDate"> Model.Booking.EndDate </>
+    <input asp-for="Booking.CarVIN" type="hidden"></>
+    <input asp-for="Booking.UserId" type="hidden"></>
+    <input asp-for="Booking.StartDate" type="hidden"> </>
+    <input asp-for="Booking.EndDate" type="hidden"> </>
 
     <div class="border p-3">
         <div asp-validation-summary="All" class="text-danger"></div>

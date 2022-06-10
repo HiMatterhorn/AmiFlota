@@ -11,7 +11,8 @@ namespace AmiFlota.Models
         public int Id {get;set;}
 
         [Required]
-        public string BookingUser { get; set; }
+        [Column("User Id")]
+        public string UserId { get; set; }
         [Required]
         public string CarVIN { get; set; }
         [Required]

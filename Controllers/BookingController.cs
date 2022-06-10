@@ -43,7 +43,7 @@ namespace AmiFlota.Controllers
                 StartDate = startDate,
                 EndDate = endDate,
                 CarVIN = VIN,
-                BookingUser = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
             };
             // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  will give the user's userId
             //userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
@@ -51,7 +51,8 @@ namespace AmiFlota.Controllers
 
             BookingVM viewModel = new BookingVM()
             {
-                Booking = model
+                Booking = model,
+                UserName = User.FindFirstValue(ClaimTypes.Name)
             };
 
             return View(viewModel);
@@ -78,6 +79,8 @@ namespace AmiFlota.Controllers
         {
             return View();
         }
+
+  
 
     }
 }

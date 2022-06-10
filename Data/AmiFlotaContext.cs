@@ -27,7 +27,7 @@ namespace AmiFlota.Data
            modelBuilder.Entity<BookingModel>()
                 .HasOne(c => c.ApplicationUserModels)
                 .WithMany(t => t.BookingModels)
-                .HasForeignKey(x => x.BookingUser);
+                .HasForeignKey(x => x.UserId);
 
         }
     }

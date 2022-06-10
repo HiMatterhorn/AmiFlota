@@ -9,6 +9,6 @@ namespace AmiFlota.Models.ViewModels
         // Booking properties
 
         public BookingModel Booking { get; set; }
-
+        public string UserName { get; set; }
     }
 }

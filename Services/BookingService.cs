@@ -35,7 +35,7 @@ namespace AmiFlota.Services
             };
 
             return availableCarsVM;
-       }
+        }
 
         public async Task<List<CarModel>> GetAllCars()
         {
@@ -65,15 +65,45 @@ namespace AmiFlota.Services
             return availableCars;
         }
 
+        public bool ValidateBooking(DateTime startDate, DateTime endDate, string carVin)
+        {
+
+            //TODO Check if carVin exists in database?
+            var bookings = _db.Bookings
+                .Where(x => x.CarVIN.Equals(carVin))
+                .Where(s => s.StartDate <= endDate)
+                .Where(e => e.EndDate >= startDate).ToList();
+
+            if (bookings.Count() == 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public IEnumerable<CarModel> GetCarByVIN(string VIN)
         {
             return _db.Cars.Where(x => x.VIN.Equals(VIN));
         }
 
-        public void BookCar (BookingVM bookingVM)
+        public void BookCar(BookingVM bookingVM)
         {
-            _db.Bookings.Add(bookingVM.Booking);
-            _db.SaveChanges();
+            //Validate booking
+            bool validatationResult = ValidateBooking(bookingVM.Booking.StartDate, bookingVM.Booking.EndDate, bookingVM.Booking.CarVIN);
+
+            //Save to database
+            if (validatationResult)
+            {
+                _db.Bookings.Add(bookingVM.Booking);
+                _db.SaveChanges();
+            }
+
+            else
+            {
+                //TODO Booking not validated successfully
+                Console.WriteLine("booking not validated");
+            }
         }
 
     }
