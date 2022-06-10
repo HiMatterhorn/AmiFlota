@@ -106,5 +106,25 @@ namespace AmiFlota.Services
             }
         }
 
+        public async Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId)
+        {
+            var results = await _db.Bookings.
+                Where(x => x.UserId == userId).
+                Where(a => a.isApproved == false).
+                ToListAsync();
+
+            return results;
+        }
+
+        public async Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId)
+        {
+            var results = await _db.Bookings.
+                Where(x => x.UserId == userId).
+                Where(a => a.isApproved == true).
+                ToListAsync();
+
+            return results;
+        }
+
     }
 }

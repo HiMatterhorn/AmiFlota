@@ -35,6 +35,20 @@ namespace AmiFlota.Controllers
             return PartialView("_FilteredCarsView", carList);
         }
 
+        public async Task<PartialViewResult> PendingBookingsCurrentUser()
+        {
+            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var bookingsList = await _bookingService.GetPendingBookingsByUserId(currentUser);
+            return PartialView("_BookingList", bookingsList);
+        }
+
+        public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
+        {
+            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var bookingsList = await _bookingService.GetApprovedBookingsByUserId(currentUser);
+            return PartialView("_BookingList", bookingsList);
+        }
+
         //GET - create
         public IActionResult BookingDetails(string VIN, DateTime startDate, DateTime endDate)
         {

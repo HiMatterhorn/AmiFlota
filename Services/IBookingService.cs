@@ -13,6 +13,9 @@ namespace AmiFlota.Services
         public Task<AvailableCarsVM> GetAvailableCars (DateTime startDate, DateTime endDate);
 
         public void BookCar(BookingVM bookingVM);
+        public Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId);
+        public Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId);
+
 
     }
 }
