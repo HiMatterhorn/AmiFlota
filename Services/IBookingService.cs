@@ -16,6 +16,8 @@ namespace AmiFlota.Services
         public Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId);
         public Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId);
 
+        public List<BookingVM> BookingsByCarVIN(string carVIN);
+
 
     }
 }

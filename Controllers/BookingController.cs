@@ -17,11 +17,14 @@ namespace AmiFlota.Controllers
         private readonly IBookingService _bookingService;
 
         private readonly IHttpContextAccessor _httpContextAccessor;
-
+        private readonly string userId;
+        private readonly string userName;
         public BookingController(IBookingService bookingService, IHttpContextAccessor httpContextAccessor)
         {
             _bookingService = bookingService;
             _httpContextAccessor = httpContextAccessor;
+            userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            userName = User.FindFirstValue(ClaimTypes.Name);
         }
 
         public IActionResult Search()
@@ -37,15 +40,13 @@ namespace AmiFlota.Controllers
 
         public async Task<PartialViewResult> PendingBookingsCurrentUser()
         {
-            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var bookingsList = await _bookingService.GetPendingBookingsByUserId(currentUser);
+            var bookingsList = await _bookingService.GetPendingBookingsByUserId(userId);
             return PartialView("_BookingList", bookingsList);
         }
 
         public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
-        {
-            var currentUser = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var bookingsList = await _bookingService.GetApprovedBookingsByUserId(currentUser);
+        {;
+            var bookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
             return PartialView("_BookingList", bookingsList);
         }
 
@@ -57,7 +58,7 @@ namespace AmiFlota.Controllers
                 StartDate = startDate,
                 EndDate = endDate,
                 CarVIN = VIN,
-                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+                UserId = userId
             };
             // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  will give the user's userId
             //userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
@@ -66,7 +67,7 @@ namespace AmiFlota.Controllers
             BookingVM viewModel = new BookingVM()
             {
                 Booking = model,
-                UserName = User.FindFirstValue(ClaimTypes.Name)
+                UserName = userName
             };
 
             return View(viewModel);
@@ -84,17 +85,17 @@ namespace AmiFlota.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Book()
+
+        public IActionResult UserDashboard()
         {
             return View();
         }
 
-        public IActionResult Index()
+
+        public IActionResult Calendar()
         {
             return View();
         }
-
-  
 
     }
 }

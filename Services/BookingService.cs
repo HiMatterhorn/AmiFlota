@@ -126,5 +126,13 @@ namespace AmiFlota.Services
             return results;
         }
 
+        public List<BookingVM> BookingsByCarVIN(string carVIN)
+        {
+            return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
+            {
+                //TODO Change BookingVM structure
+            }).ToList();
+        }
+
     }
 }
