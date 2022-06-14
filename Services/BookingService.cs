@@ -22,10 +22,10 @@ namespace AmiFlota.Services
         }
 
 
-        public AvailableCarsVM GetAvailableCars(DateTime startDate, DateTime endDate)
+        public async Task<AvailableCarsVM> GetAvailableCars(DateTime startDate, DateTime endDate)
         {
 
-            List<CarModel> availableCars = GetCarsInDates(startDate, endDate);
+            List<CarModel> availableCars = await GetCarsInDates(startDate, endDate);
 
             AvailableCarsVM availableCarsVM = new AvailableCarsVM()
             {
@@ -37,17 +37,17 @@ namespace AmiFlota.Services
             return availableCarsVM;
         }
 
-        public List<CarModel> GetAllCars()
+        public async Task<List<CarModel>> GetAllCars()
         {
-            List<CarModel> cars = _db.Cars.ToList();
+            List<CarModel> cars = await _db.Cars.ToListAsync();
 
             return cars;
         }
 
-        public List<CarModel> GetCarsInDates(DateTime startDate, DateTime endDate)
+        public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
         {
             List<CarModel> availableCars = new List<CarModel>();
-            IEnumerable<CarModel> cars = GetAllCars();
+            IEnumerable<CarModel> cars = await GetAllCars();
 
             foreach (var car in cars)
             {

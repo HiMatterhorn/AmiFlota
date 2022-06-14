@@ -32,22 +32,22 @@ namespace AmiFlota.Controllers
             return View();
         }
 
-        public PartialViewResult FilterCars(DateTime startDate, DateTime endDate)
+        public async Task<PartialViewResult> FilterCars(DateTime startDate, DateTime endDate)
         {
-            AvailableCarsVM carList = _bookingService.GetAvailableCars(startDate, endDate);
+            AvailableCarsVM carList = await _bookingService.GetAvailableCars(startDate, endDate);
             return PartialView("_FilteredCarsView", carList);
         }
 
-        public PartialViewResult PendingBookingsCurrentUser()
+        public async Task<PartialViewResult> PendingBookingsCurrentUser()
         {
-            var bookingsList = _bookingService.GetPendingBookingsByUserId(userId);
+            var bookingsList = await _bookingService.GetPendingBookingsByUserId(userId);
             return PartialView("_BookingList", bookingsList);
         }
 
-        public  PartialViewResult ApprovedBookingsCurrentUser()
+        public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
         {
             ;
-            var bookingsList = _bookingService.GetApprovedBookingsByUserId(userId);
+            var bookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
             return PartialView("_BookingList", bookingsList);
         }
 
@@ -72,7 +72,7 @@ namespace AmiFlota.Controllers
             if (ModelState.IsValid)
             {
                 _bookingService.BookCar(viewModel);
-                return (RedirectToAction("Index"));
+                return (RedirectToAction("UserDashboard"));
             }
             return View(viewModel);
         }
@@ -85,9 +85,9 @@ namespace AmiFlota.Controllers
         }
 
 
-        public IActionResult Calendar()
+        public async Task<IActionResult> Calendar()
         {
-            ViewBag.CarList = _bookingService.GetAllCars();
+            ViewBag.CarList = await _bookingService.GetAllCars();
 
             return View();
         }

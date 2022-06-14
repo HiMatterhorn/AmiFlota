@@ -8,9 +8,9 @@ namespace AmiFlota.Services
 {
     public interface IBookingService
     {
-        public List<CarModel> GetAllCars();
+        public Task<List<CarModel>> GetAllCars();
         public IEnumerable<CarModel> GetCarByVIN(string VIN);
-        public AvailableCarsVM GetAvailableCars (DateTime startDate, DateTime endDate);
+        public Task<AvailableCarsVM> GetAvailableCars (DateTime startDate, DateTime endDate);
         public void BookCar(BookingVM bookingVM);
         public Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId);
         public Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId);
