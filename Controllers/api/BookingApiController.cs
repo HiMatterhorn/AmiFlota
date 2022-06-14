@@ -25,7 +25,7 @@ namespace AmiFlota.Controllers.api
         }
 
         [HttpGet]
-        [Route("GetCalendarDataForCar/{carVIN}")]
+        [Route("GetCalendarDataForCar")]
         public IActionResult GetCalendarDataForCar(string carVIN)
         {
             CommonResponse<List<BookingVM>> commonResponse = new CommonResponse<List<BookingVM>>();

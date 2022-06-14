@@ -22,10 +22,10 @@ namespace AmiFlota.Services
         }
 
 
-        public async Task<AvailableCarsVM> GetAvailableCars(DateTime startDate, DateTime endDate)
+        public AvailableCarsVM GetAvailableCars(DateTime startDate, DateTime endDate)
         {
 
-            List<CarModel> availableCars = await GetCarsInDates(startDate, endDate);
+            List<CarModel> availableCars = GetCarsInDates(startDate, endDate);
 
             AvailableCarsVM availableCarsVM = new AvailableCarsVM()
             {
@@ -37,17 +37,17 @@ namespace AmiFlota.Services
             return availableCarsVM;
         }
 
-        public async Task<List<CarModel>> GetAllCars()
+        public List<CarModel> GetAllCars()
         {
-            List<CarModel> cars = await _db.Cars.ToListAsync();
+            List<CarModel> cars = _db.Cars.ToList();
 
             return cars;
         }
 
-        public async Task<List<CarModel>> GetCarsInDates(DateTime startDate, DateTime endDate)
+        public List<CarModel> GetCarsInDates(DateTime startDate, DateTime endDate)
         {
             List<CarModel> availableCars = new List<CarModel>();
-            IEnumerable<CarModel> cars = await GetAllCars();
+            IEnumerable<CarModel> cars = GetAllCars();
 
             foreach (var car in cars)
             {
@@ -65,23 +65,6 @@ namespace AmiFlota.Services
             return availableCars;
         }
 
-        public bool ValidateBooking(DateTime startDate, DateTime endDate, string carVin)
-        {
-
-            //TODO Check if carVin exists in database?
-            var bookings = _db.Bookings
-                .Where(x => x.CarVIN.Equals(carVin))
-                .Where(s => s.StartDate <= endDate)
-                .Where(e => e.EndDate >= startDate).ToList();
-
-            if (bookings.Count() == 0)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public IEnumerable<CarModel> GetCarByVIN(string VIN)
         {
             return _db.Cars.Where(x => x.VIN.Equals(VIN));
@@ -89,13 +72,26 @@ namespace AmiFlota.Services
 
         public void BookCar(BookingVM bookingVM)
         {
+            //TODO GetCarVinByRegistrationNumber
+            BookingModel bookingModel = new BookingModel()
+            {
+                //TODO Convert bookingVM -> bookingModel
+                UserId = GetUserIdByName(bookingVM.UserName),
+                StartDate = bookingVM.StartDate,
+                EndDate = bookingVM.EndDate,
+                CarVIN = GetVinByRegistrationNumber(bookingVM.RegistrationNumber),
+                ProjectCost = bookingVM.ProjectCost,
+                Destination = bookingVM.Destination,
+                isApproved = bookingVM.isApproved,
+            };
+
             //Validate booking
-            bool validatationResult = ValidateBooking(bookingVM.Booking.StartDate, bookingVM.Booking.EndDate, bookingVM.Booking.CarVIN);
+            bool validatationResult = ValidateBooking(bookingModel);
 
             //Save to database
             if (validatationResult)
             {
-                _db.Bookings.Add(bookingVM.Booking);
+                _db.Bookings.Add(bookingModel);
                 _db.SaveChanges();
             }
 
@@ -106,33 +102,125 @@ namespace AmiFlota.Services
             }
         }
 
+        public bool ValidateBooking(BookingModel bookingModel)
+        {
+            //TODO Check if carVin exists in database?
+            var bookings = _db.Bookings
+                .Where(x => x.CarVIN.Equals(bookingModel.CarVIN))
+                .Where(s => s.StartDate <= bookingModel.StartDate)
+                .Where(e => e.EndDate >= bookingModel.StartDate).ToList();
+
+            if (bookings.Count() == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public async Task<IEnumerable<BookingModel>> GetPendingBookingsByUserId(string userId)
         {
-            var results = await _db.Bookings.
+            try
+            {
+                var results = await _db.Bookings.
                 Where(x => x.UserId == userId).
                 Where(a => a.isApproved == false).
                 ToListAsync();
-
-            return results;
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<BookingModel>> GetApprovedBookingsByUserId(string userId)
         {
-            var results = await _db.Bookings.
+            try
+            {
+                var results = await _db.Bookings.
                 Where(x => x.UserId == userId).
                 Where(a => a.isApproved == true).
                 ToListAsync();
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
-            return results;
         }
 
         public List<BookingVM> BookingsByCarVIN(string carVIN)
         {
-            return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
+            try
             {
-                //TODO Change BookingVM structure
-            }).ToList();
+                return _db.Bookings.Where(x => x.CarVIN == carVIN).ToList().Select(c => new BookingVM()
+                {
+                    UserName = GetUserNameById(c.UserId),
+                    RegistrationNumber = GetRegistrationNumberByCarVin(c.CarVIN),
+                    StartDate = c.StartDate,
+                    EndDate = c.EndDate,
+                    Destination = c.Destination,
+                    ProjectCost = c.ProjectCost,
+                    isApproved = c.isApproved,
+                }).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
+        public string GetRegistrationNumberByCarVin(string carVIN)
+        {
+            try
+            {
+                var result = _db.Cars.FirstOrDefault(x => x.VIN == carVIN);
+                return result.RegistrationNumber;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string GetVinByRegistrationNumber(string registrationNumber)
+        {
+            try
+            {
+                var result = _db.Cars.FirstOrDefault(x => x.RegistrationNumber == registrationNumber);
+                return result.VIN;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string GetUserIdByName(string userName)
+        {
+            try
+            {
+                var result = _db.Users.FirstOrDefault(x => x.UserName == userName);
+                return result.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public string GetUserNameById(string userId)
+        {
+            try
+            {
+                var result = _db.Users.FirstOrDefault(x => x.Id == userId);
+                return result.UserName;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

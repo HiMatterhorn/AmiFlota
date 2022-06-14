@@ -39,7 +39,7 @@ function InitializeCalendar() {
                 eventDisplay: 'block',
                 events: function (fetchInfo, successCallback, failureCallback) {
                     $.ajax({
-                        url: routeURL + '/api/Appointment/GetCalendarData?doctorId=' + $("#doctorId").val(),
+                        url: routeURL + '/api/Booking/GetCalendarDataForCar?carVIN=' + $("#carVIN").val(),
                         type: 'GET',
                         dataType: 'JSON',
                         success: function (response) {
@@ -48,14 +48,14 @@ function InitializeCalendar() {
 
                                 $.each(response.dataenum, function (i, data) {
                                     events.push({
-                                        title: data.title,
-                                        description: data.description,
-                                        start: data.startDate,
-                                        end: data.endDate,
-                                        backgroundColor: data.isDoctorApproved ? "#28a745" : "#dc3545",
+                                        title: data.Destination,
+                                        description: data.UserName,
+                                        start: data.StartDate,
+                                        end: data.EndDate,
+                                        backgroundColor: data.isApproved ? "#28a745" : "#dc3545",
                                         borderColor: "#162466",
                                         textColor: "white",
-                                        id: data.id
+                                        id: data.Id
                                     });
 
                                 })

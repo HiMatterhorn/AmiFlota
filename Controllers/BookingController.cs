@@ -23,8 +23,8 @@ namespace AmiFlota.Controllers
         {
             _bookingService = bookingService;
             _httpContextAccessor = httpContextAccessor;
-            userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            userName = User.FindFirstValue(ClaimTypes.Name);
+            userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            userName = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
         }
 
         public IActionResult Search()
@@ -32,42 +32,34 @@ namespace AmiFlota.Controllers
             return View();
         }
 
-        public async Task<PartialViewResult> FilterCars(DateTime startDate, DateTime endDate)
+        public PartialViewResult FilterCars(DateTime startDate, DateTime endDate)
         {
-            AvailableCarsVM carList = await _bookingService.GetAvailableCars(startDate, endDate);
+            AvailableCarsVM carList = _bookingService.GetAvailableCars(startDate, endDate);
             return PartialView("_FilteredCarsView", carList);
         }
 
-        public async Task<PartialViewResult> PendingBookingsCurrentUser()
+        public PartialViewResult PendingBookingsCurrentUser()
         {
-            var bookingsList = await _bookingService.GetPendingBookingsByUserId(userId);
+            var bookingsList = _bookingService.GetPendingBookingsByUserId(userId);
             return PartialView("_BookingList", bookingsList);
         }
 
-        public async Task<PartialViewResult> ApprovedBookingsCurrentUser()
-        {;
-            var bookingsList = await _bookingService.GetApprovedBookingsByUserId(userId);
+        public  PartialViewResult ApprovedBookingsCurrentUser()
+        {
+            ;
+            var bookingsList = _bookingService.GetApprovedBookingsByUserId(userId);
             return PartialView("_BookingList", bookingsList);
         }
 
         //GET - create
         public IActionResult BookingDetails(string VIN, DateTime startDate, DateTime endDate)
         {
-            BookingModel model = new BookingModel()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                CarVIN = VIN,
-                UserId = userId
-            };
-            // var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);  will give the user's userId
-            //userName = User.FindFirstValue(ClaimTypes.Name); // will give the user's userName
-            //email = User.FindFirstValue(ClaimTypes.Email);
-
             BookingVM viewModel = new BookingVM()
             {
-                Booking = model,
-                UserName = userName
+                UserName = userName,
+                RegistrationNumber = _bookingService.GetRegistrationNumberByCarVin(VIN),
+                StartDate = startDate,
+                EndDate = endDate,
             };
 
             return View(viewModel);
@@ -86,6 +78,7 @@ namespace AmiFlota.Controllers
         }
 
 
+
         public IActionResult UserDashboard()
         {
             return View();
@@ -94,6 +87,8 @@ namespace AmiFlota.Controllers
 
         public IActionResult Calendar()
         {
+            ViewBag.CarList = _bookingService.GetAllCars();
+
             return View();
         }
 
