@@ -73,6 +73,8 @@ namespace AmiFlota
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
+/*            app.UseNodeModules();*/
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

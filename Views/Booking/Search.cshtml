@@ -2,6 +2,8 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 
+
+
 <!DOCTYPE html>
 
 <html>
@@ -20,12 +22,9 @@
 
         <div class="form-group row">
             <div class="col-md-4">
-                <label for="bookingStartDate">Start Date</label>
-                <input class="form-control" id="bookingStartDate" style="width: 100%;">
-            </div>
-            <div class="col-md-4">
-                <label for="bookingEndDate">End Date</label>
-                <input class="form-control" id="bookingEndDate" style="width: 100%;">
+                @*<input id="datetimeCalendar">*@
+                <input class="select-datetime" id="select-datetime" type="datetime" >
+                @*<input id="event-event_start_datetime" type="datetime" value="01/20/2020 06:30 - 01/21/2020 16:45">*@
             </div>
         </div>
 
@@ -38,7 +37,7 @@
         @*//TODO Return bookingStartDate and bookingEndDate to bookingVM *@
     </form>
 
-        <div id="_SearchingResults"> </div>
+    <div id="_SearchingResults"> </div>
 
     <footer>
         <div class="text-right pt-2">
@@ -48,25 +47,158 @@
 
 </body>
 </html>
-    
+
 @* //TODO Relocate script to separate file*@
-@*<script src="~/js/searching-results.js"></script>*@
+<script>
+            $(document).ready(function () {
+            var myCalendar = bulmaCalendar.attach('.select-datetime', {
+            type: 'datetime',
+            isRange: true,
+            weekStart: 1,
+            displayMode:'default',
+            showHeader:'false',
+
+            showButtons: 'true',
+            showTodayButton: 'true',
+            showClearButon: 'true',
+            cancelLabel:'Cancel',
+            clearLabel:'Clear',
+            todayLabel:'Today',
+            nowLabel:'Now',
+            validateLabel:'Save',
+            labelFrom:'From:',
+            labelTo:'To:',
+
+            startDate:'01/01/2022 10:00',
+            endDate:'01/02/2022 10:00',
+
+            navigationMonthFormat: 'MMMM',
+            navigationYearFormat: 'YYYY',
+            headerMonthYearFromat: 'MMMM YYYY',
+            });
+
+            // something wrong with bulma code and start date hours and minutes not populated
+            // have a value of: MM/DD/YYYY HH:MM - MM/DD/YYYY HH:MM (startDate startTime - endDate endTime)
+            // get the startDate hours and minutes
+            let startHours = 06;
+            let startMinutes = 15;
+            //let startDate = 01/06/2022;
+
+            let endHours = 08;
+            let endMinutes = 45;
+            //let endDate = 01/06/2022;
+
+           // put values into proper spots for the calendar to have pre-populated start time
+           // $('input#event-event_start_datetime').val(incomingDate);
+           // $('.datetimepicker-dummy-input.is-datetimepicker-range').val(startDate);
+            $('.timepicker-start .timepicker-hours .timepicker-input-number').text(startHours);
+            $('.datetimepicker-selection-start .datetimepicker-selection-hour').text(startHours + ':' + startMinutes);
+            $('.timepicker-start .timepicker-minutes .timepicker-input-number').text(startMinutes);
+
+            $('.timepicker-end .timepicker-hours .timepicker-input-number').text(endHours);
+            $('.datetimepicker-selection-end .datetimepicker-selection-hour').text(endHours + ':' + endMinutes);
+            $('.timepicker-end .timepicker-minutes .timepicker-input-number').text(endMinutes);
+
+
+            });
+
+
+        //SET THE UI
+       // set value
+    
+//        if (calendar.timePicker._time.start != null) {
+//        calendar.timePicker._time.start = calendar.startDate;
+//        }
+        // set ui
+//        if (calendar.timePicker._ui.start.hours.number != null && calendar.timePicker._ui.start.minutes.number != null) {
+//        calendar.timePicker._ui.start.hours.number.innerHTML = hours;
+//        calendar.timePicker._ui.start.minutes.number.innerHTML = minutes;
+//        }
+
+        // set value
+//        if (calendar.timePicker._time.end != null) {
+//        calendar.timePicker._time.end = calendar.endDate;
+//        }
+        // set ui
+//        if (calendar.timePicker._ui.end.hours.number != null && calendar.timePicker._ui.end.minutes.number != null) {
+//        calendar.timePicker._ui.end.hours.number.innerHTML = hours;
+//        calendar.timePicker._ui.end.minutes.number.innerHTML = minutes;
+ 
+    // WORKS WITH HTML
+    // <input id="event-event_start_datetime" type="datetime" value="01/20/2020 01:15 - 01/21/2020 23:59">
+
+    @*$(document).ready(function () {
+
+        // save off the incoming(preset)
+        let incomingDate = $('#event-event_start_datetime').val();
+
+        // Initialize datetimepicker
+        let calendars = bulmaCalendar.attach('#event-event_start_datetime', {
+        isRange: true,
+        dateFormat: 'MM/DD/YYYY',
+        timeFormat: 'HH:mm',
+        showHeader: false,
+        showTodayButton: false,
+        showClearButton: false,
+        validateLabel: "Select",
+        minuteSteps: 15,
+        labelFrom: 'Event Start',
+        labelTo: 'Event End'
+        });
+
+        if (incomingDate) {
+        // something wrong with bulma code and start date hours and minutes not populated
+        // have a value of: MM/DD/YYYY HH:MM - MM/DD/YYYY HH:MM (startDate startTime - endDate endTime)
+        // get the startDate hours and minutes
+        let incomingStartHours = incomingDate.substring(11, 13);
+        let incomingStartMinutes = incomingDate.substring(14, 16);
+        let incomingStartDate = incomingDate.substring(0, 16);
+
+        // put values into proper spots for the calendar to have pre-populated start time
+        $('input#event-event_start_datetime').val(incomingDate);
+        $('.datetimepicker-dummy-input.is-datetimepicker-range').val(incomingStartDate);
+        $('.timepicker-start .timepicker-hours .timepicker-input-number').text(incomingStartHours);
+        $('.datetimepicker-selection-start .datetimepicker-selection-hour').text(incomingStartHours + ':' + incomingStartMinutes);
+        $('.timepicker-start .timepicker-minutes .timepicker-input-number').text(incomingStartMinutes);
+        }
+
+        // Loop on each calendar initialized
+        for (let i = 0; i < calendars.length; i++) {
+        // Add listener to date:selected event
+        calendars[i].on('select', date => {
+        console.log(date);
+        });
+        }
+
+        // To access to bulmaCalendar instance of an element
+        let element1 = document.querySelector('#event-event_datetime_start');
+        if (element1) {
+        // bulmaCalendar instance is available as element.bulmaCalendar
+        element1.bulmaCalendar.on('select', function (datepicker) {
+        console.log(datepicker.data.value());
+        });
+        }
+        });
+    *@
+
+</script>
 
 <script>
-$('#btnSearch').on('click',function(){
-    $.ajax({
-        url: '@Url.Action("FilterCars", "Booking")',
-        datatype: 'html',
-        data: {startDate:($('#bookingStartDate').val()), endDate:($('#bookingEndDate').val())},
-        method: 'GET',
+    $('#btnSearch').on('click',function(){
+        $.ajax({
+            url: '@Url.Action("FilterCars", "Booking")',
+            datatype: 'html',
+            data: {startDate:($('#bookingStartDate').val()), endDate:($('#bookingEndDate').val())},
+            method: 'GET',
 
-        success: function (result) {
-            $('#_SearchingResults').html('').html(result);
-        },
+            success: function (result) {
+                $('#_SearchingResults').html('').html(result);
+            },
 
-        error: function (error) {
-            console.log(error);
-        }
+            error: function (error) {
+                console.log(error);
+            }
+        });
     });
-});
 </script>
+
