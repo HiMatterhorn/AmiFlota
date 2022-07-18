@@ -1547,6 +1547,7 @@ module.exports = buildDistanceInWordsLocale
 
 var buildFormattingTokensRegExp = __webpack_require__(2)
 
+
 function buildFormatLocale () {
   var months3char = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
   var monthsFull = ['كانون الثاني يناير', 'شباط فبراير', 'آذار مارس', 'نيسان أبريل', 'أيار مايو', 'حزيران يونيو', 'تموز يوليو', 'آب أغسطس', 'أيلول سبتمبر', 'تشرين الأول أكتوبر', 'تشرين الثاني نوفمبر', 'كانون الأول ديسمبر']
@@ -20182,3 +20183,5 @@ var defaultOptions = {
 /***/ })
 /******/ ])["default"];
 });
+
+
